@@ -87,7 +87,9 @@ fn main() {
             process::exit(1);
         });
 
-    client.request_character(username.to_string(), comp::Body::Humanoid(comp::humanoid::Body::random()), None);
+    let character = client.character_list.characters.iter().find(|&&x| x.character.alias == username).unwrap().character;
+
+    client.request_character(character.id.unwrap());
     client.set_view_distance(view_distance);
 
     // Spawn input thread
