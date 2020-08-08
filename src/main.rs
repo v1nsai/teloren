@@ -87,9 +87,9 @@ fn main() {
             process::exit(1);
         });
 
-    let character = client.character_list.characters.iter().find(|&&x| x.character.alias == username).unwrap().character;
+    // let character = client.character_list.characters.iter().find(|x| x.character.alias == username).unwrap().character;
 
-    client.request_character(character.id.unwrap());
+    client.request_character(client.character_list.characters.iter().find(|x| x.character.alias == username).unwrap().character.id.unwrap());
     client.set_view_distance(view_distance);
 
     // Spawn input thread
@@ -179,7 +179,7 @@ fn main() {
         // Tick client
         for event in client.tick(inputs, clock.get_last_delta(), |_| ()).unwrap() {
             match event {
-                Event::Chat { message, .. } => chat_log.push(message),
+                Event::Chat(msg) => chat_log.push(msg),
                 _ => {},
             }
         }
@@ -267,7 +267,7 @@ fn main() {
             let clear = "                                                                ";
             for (i, msg) in chat_log.iter().rev().take(10).enumerate() {
                 write!(display.at((24, screen_size.y + 10 - i as u16)), "{}", clear).unwrap();
-                write!(display.at((24, screen_size.y + 10 - i as u16)), "{}", msg.get(0..48).unwrap_or(&msg)).unwrap();
+                write!(display.at((24, screen_size.y + 10 - i as u16)), "{:?}", msg).unwrap();
             }
             write!(display.at((24, screen_size.y + 11)), "{}", clear).unwrap();
             write!(display.at((24, screen_size.y + 11)), "> {}", chat_input).unwrap();
