@@ -10,7 +10,7 @@ Teloren is currently still very much a work in progress and I strongly recommend
 Start Teloren using the following arguments:
 
 ```
-teloren --alias YOUR_ALIAS
+teloren --username YOUR_USERNAME --password YOUR_PASSWORD
 ```
 
 Optionally, you may also specify `--server` and `--port` arguments to play on something other than the main public server.
