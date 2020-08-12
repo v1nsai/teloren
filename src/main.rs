@@ -87,10 +87,12 @@ fn main() {
             process::exit(1);
         });
 
-    // let character = client.character_list.characters.iter().find(|x| x.character.alias == username).unwrap().character;
-
-    client.request_character(client.character_list.characters.iter().find(|x| x.character.alias == username).unwrap().character.id.unwrap());
     client.set_view_distance(view_distance);
+
+    // Troubleshooting request_character()
+    println!("ClientState = {:?}", client.get_client_state());
+    thread::sleep(Duration::from_secs(5));
+    // client.request_character();
 
     // Spawn input thread
     let stdin = stdin();

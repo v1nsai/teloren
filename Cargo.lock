@@ -1305,8 +1305,10 @@ name = "teloren"
 version = "0.1.0"
 dependencies = [
  "clap 2.33.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "crossbeam 0.7.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "specs 0.16.1 (git+https://github.com/amethyst/specs.git?rev=7a2e348ab2223818bad487695c66c43db88050a5)",
  "termion 1.5.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "tracing 0.1.18 (registry+https://github.com/rust-lang/crates.io-index)",
  "vek 0.11.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "veloren-client 0.6.0 (git+https://gitlab.com/veloren/veloren.git)",
  "veloren-common 0.6.0 (git+https://gitlab.com/veloren/veloren.git)",
@@ -1337,7 +1339,18 @@ version = "0.1.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "cfg-if 0.1.10 (registry+https://github.com/rust-lang/crates.io-index)",
+ "tracing-attributes 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)",
  "tracing-core 0.1.13 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "tracing-attributes"
+version = "0.1.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "proc-macro2 1.0.10 (registry+https://github.com/rust-lang/crates.io-index)",
+ "quote 1.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "syn 1.0.18 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -1466,7 +1479,7 @@ dependencies = [
 [[package]]
 name = "veloren-client"
 version = "0.6.0"
-source = "git+https://gitlab.com/veloren/veloren.git#890dcc902ebf99a7997ed0f92c4ee3e61c0c586d"
+source = "git+https://gitlab.com/veloren/veloren.git#e00ec1910cec100650d43dcc5f18cac8a69bb63b"
 dependencies = [
  "authc 1.0.0 (git+https://gitlab.com/veloren/auth.git?rev=b943c85e4a38f5ec60cd18c34c73097640162bfe)",
  "byteorder 1.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1487,7 +1500,7 @@ dependencies = [
 [[package]]
 name = "veloren-common"
 version = "0.6.0"
-source = "git+https://gitlab.com/veloren/veloren.git#890dcc902ebf99a7997ed0f92c4ee3e61c0c586d"
+source = "git+https://gitlab.com/veloren/veloren.git#e00ec1910cec100650d43dcc5f18cac8a69bb63b"
 dependencies = [
  "arraygen 0.1.13 (registry+https://github.com/rust-lang/crates.io-index)",
  "authc 1.0.0 (git+https://gitlab.com/veloren/auth.git?rev=b943c85e4a38f5ec60cd18c34c73097640162bfe)",
@@ -1516,7 +1529,7 @@ dependencies = [
 [[package]]
 name = "veloren_network"
 version = "0.1.0"
-source = "git+https://gitlab.com/veloren/veloren.git#890dcc902ebf99a7997ed0f92c4ee3e61c0c586d"
+source = "git+https://gitlab.com/veloren/veloren.git#e00ec1910cec100650d43dcc5f18cac8a69bb63b"
 dependencies = [
  "async-std 1.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "bincode 1.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1836,6 +1849,7 @@ dependencies = [
 "checksum termion 1.5.5 (registry+https://github.com/rust-lang/crates.io-index)" = "c22cec9d8978d906be5ac94bceb5a010d885c626c4c8855721a4dbd20e3ac905"
 "checksum textwrap 0.11.0 (registry+https://github.com/rust-lang/crates.io-index)" = "d326610f408c7a4eb6f51c37c330e496b08506c9457c9d34287ecc38809fb060"
 "checksum tracing 0.1.18 (registry+https://github.com/rust-lang/crates.io-index)" = "f0aae59226cf195d8e74d4b34beae1859257efb4e5fed3f147d2dc2c7d372178"
+"checksum tracing-attributes 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)" = "f0693bf8d6f2bf22c690fc61a9d21ac69efdbb894a17ed596b9af0f01e64b84b"
 "checksum tracing-core 0.1.13 (registry+https://github.com/rust-lang/crates.io-index)" = "d593f98af59ebc017c0648f0117525db358745a8894a8d684e185ba3f45954f9"
 "checksum tracing-futures 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)" = "ab7bb6f14721aa00656086e9335d363c5c8747bae02ebe32ea2c7dece5689b4c"
 "checksum tuple_utils 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "44834418e2c5b16f47bedf35c28e148db099187dd5feee6367fb2525863af4f1"
