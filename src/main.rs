@@ -20,6 +20,7 @@ use veloren_common::{
     comp,
     clock::Clock,
     vol::{ReadVol, Vox},
+    msg::ClientState
 };
 use specs::Join;
 use crate::display::Display;
@@ -53,6 +54,11 @@ fn main() {
             .value_name("PORT")
             .help("Set the server port")
             .takes_value(true))
+        .arg(Arg::with_name("character")
+            .long("character")
+            .value_name("CHARACTER")
+            .help("Select the character to play")
+            .takes_value(true))
         .get_matches();
 
     // Find arguments
@@ -60,6 +66,7 @@ fn main() {
     let server_port = matches.value_of("port").unwrap_or("14004");
     let username = matches.value_of("username").unwrap_or("teloren_user");
     let password = matches.value_of("password").unwrap_or("");
+    let character_name = matches.value_of("character").unwrap_or(""); //TODO should panic here if none
     //let password = matches.value_of("password").unwrap_or("");
 
     // Parse server socket
@@ -89,16 +96,22 @@ fn main() {
 
     client.set_view_distance(view_distance);
 
-    // Troubleshooting request_character()
-    println!("Printing character_list.......");
-    for cha in &client.character_list.characters {
-        println!("character_id = {:?}", cha.character.id);
-        println!("character alias = {:?}", cha.character.alias);
-    }
-    println!("Done printing character_list");
-    println!("ClientState = {:?}", client.get_client_state());
-    thread::sleep(Duration::from_secs(5)); //wait long enough to see the results
-    // client.request_character();
+    // if client.get_client_state() == ClientState::Pending {
+    //     // Troubleshooting request_character()
+    //     client.load_character_list();
+    //     // while true {
+            // println!("Printing character_list.......");
+            // println!("character_list.characters.len() = {:?}", client.character_list.characters.len());
+            // for cha in &client.character_list.characters {
+            //     println!("character_id = {:?}", cha.character.id);
+            //     println!("character alias = {:?}", cha.character.alias);
+            // }
+            // println!("Done printing character_list");
+            // println!("ClientState = {:?}", client.get_client_state());
+    //         thread::sleep(Duration::from_secs(5)); //wait `ng enough to see the results
+    //     // }
+    //     // client.request_character();
+    // }
 
     // Spawn input thread
     let stdin = stdin();
@@ -118,6 +131,20 @@ fn main() {
     let mut chat_log = Vec::new();
     let mut chat_input = String::new();
     let mut chat_input_enabled = false;
+
+    // Request character
+    client.load_character_list();
+    while client.get_client_state() == ClientState::Pending {
+        client.tick(comp::ControllerInputs::default(), clock.get_last_delta(), |_| ());
+        if client.character_list.characters.len() > 0 {
+            let character= client.character_list.characters.iter().find(|x| x.character.alias == character_name);
+            if character.is_some() {
+                let character_id = character.unwrap().character.id.unwrap();
+                client.request_character(character_id);
+                break;
+            }
+        }
+    }
 
     'running: for tick in 0.. {
         // Get player pos
