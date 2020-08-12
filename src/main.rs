@@ -90,8 +90,14 @@ fn main() {
     client.set_view_distance(view_distance);
 
     // Troubleshooting request_character()
+    println!("Printing character_list.......");
+    for cha in &client.character_list.characters {
+        println!("character_id = {:?}", cha.character.id);
+        println!("character alias = {:?}", cha.character.alias);
+    }
+    println!("Done printing character_list");
     println!("ClientState = {:?}", client.get_client_state());
-    thread::sleep(Duration::from_secs(5));
+    thread::sleep(Duration::from_secs(5)); //wait long enough to see the results
     // client.request_character();
 
     // Spawn input thread
