@@ -96,23 +96,6 @@ fn main() {
 
     client.set_view_distance(view_distance);
 
-    // if client.get_client_state() == ClientState::Pending {
-    //     // Troubleshooting request_character()
-    //     client.load_character_list();
-    //     // while true {
-            // println!("Printing character_list.......");
-            // println!("character_list.characters.len() = {:?}", client.character_list.characters.len());
-            // for cha in &client.character_list.characters {
-            //     println!("character_id = {:?}", cha.character.id);
-            //     println!("character alias = {:?}", cha.character.alias);
-            // }
-            // println!("Done printing character_list");
-            // println!("ClientState = {:?}", client.get_client_state());
-    //         thread::sleep(Duration::from_secs(5)); //wait `ng enough to see the results
-    //     // }
-    //     // client.request_character();
-    // }
-
     // Spawn input thread
     let stdin = stdin();
     let (key_tx, key_rx) = mpsc::channel();
@@ -181,9 +164,9 @@ fn main() {
                     c => chat_input.push(c),
                 },
                 TermEvent::Key(Key::Char('\n')) => chat_input_enabled = true,
-                TermEvent::Key(Key::Char('w')) => inputs.move_dir.y -= 1.0,
+                TermEvent::Key(Key::Char('w')) => inputs.move_dir.y += 1.0,
                 TermEvent::Key(Key::Char('a')) => inputs.move_dir.x -= 1.0,
-                TermEvent::Key(Key::Char('s')) => inputs.move_dir.y += 1.0,
+                TermEvent::Key(Key::Char('s')) => inputs.move_dir.y -= 1.0,
                 TermEvent::Key(Key::Char('d')) => inputs.move_dir.x += 1.0,
                 TermEvent::Mouse(me) => match me {
                     MouseEvent::Press(_, x, y) => tgt_pos = Some(from_screen_pos(Vec2::new(x, y), zoom_level)),
