@@ -38,11 +38,13 @@ fn main() {
             .long("username")
             .value_name("USERNAME")
             .help("Set the username used to log in")
+            .required(true)
             .takes_value(true))
         .arg(Arg::with_name("password")
             .long("password")
             .value_name("PASSWORD")
             .help("Set the password to log in with")
+            .required(true)
             .takes_value(true))
         .arg(Arg::with_name("server")
             .long("server")
@@ -58,6 +60,7 @@ fn main() {
             .long("character")
             .value_name("CHARACTER")
             .help("Select the character to play")
+            .required(true)
             .takes_value(true))
         .get_matches();
 
@@ -120,11 +123,14 @@ fn main() {
     while client.get_client_state() == ClientState::Pending {
         client.tick(comp::ControllerInputs::default(), clock.get_last_delta(), |_| ());
         if client.character_list.characters.len() > 0 {
-            let character= client.character_list.characters.iter().find(|x| x.character.alias == character_name);
+            let character = client.character_list.characters.iter().find(|x| x.character.alias == character_name);
             if character.is_some() {
                 let character_id = character.unwrap().character.id.unwrap();
                 client.request_character(character_id);
                 break;
+            } 
+            else {
+                panic!("Character name not found!");
             }
         }
     }
